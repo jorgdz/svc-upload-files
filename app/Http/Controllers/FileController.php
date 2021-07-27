@@ -6,6 +6,7 @@ use App\File;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Contracts\IFileController;
 
 /**
@@ -55,6 +56,7 @@ class FileController extends Controller implements IFileController
      * @return \Illuminate\Http\Response
      */
     public function show(File $file) {
+        Log::info("Show file by id '{$file->id}'");
         return $this->successResponse($file, Response::HTTP_OK);
     }
 

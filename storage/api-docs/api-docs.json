@@ -3,8 +3,21 @@
     "info": {
         "title": "Service Rest-Full",
         "description": "Documentación del mantenimiento de archivos.",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "1.0.1"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        }
+    ],
     "paths": {
         "/api/files": {
             "get": {
@@ -30,8 +43,11 @@
                     "200": {
                         "description": "Success"
                     },
-                    "401": {
+                    "403": {
                         "description": "No autorizado"
+                    },
+                    "401": {
+                        "description": "No autenticado"
                     },
                     "500": {
                         "description": "Error interno del servidor"
@@ -39,7 +55,7 @@
                 },
                 "security": [
                     {
-                        "SANCTUM": []
+                        "passport": []
                     }
                 ]
             },
@@ -74,12 +90,20 @@
                         "description": "No se cumple todos los requisitos"
                     },
                     "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
                         "description": "No autorizado"
                     },
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         },
         "/api/files/{file}": {
@@ -107,6 +131,9 @@
                         "description": "Success"
                     },
                     "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
                         "description": "No autorizado"
                     },
                     "404": {
@@ -115,7 +142,12 @@
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -158,19 +190,45 @@
                     "400": {
                         "description": "No se cumple todos los requisitos"
                     },
-                    "401": {
+                    "403": {
                         "description": "No autorizado"
+                    },
+                    "401": {
+                        "description": "No autenticado"
                     },
                     "500": {
                         "description": "Error interno del servidor"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
             }
         }
     },
     "externalDocs": {
         "description": "Mas informacion para configuración",
         "url": "https://styde.net/como-documentar-una-api-en-laravel-usando-swagger"
+    },
+    "components": {
+        "securitySchemes": {
+            "passport": {
+                "type": "oauth2",
+                "description": "Authentication",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://localhost:8000/oauth/authorize",
+                        "tokenUrl": "http://localhost:8000/oauth/token",
+                        "refreshUrl": "http://localhost:8000/token/refresh",
+                        "scopes": []
+                    }
+                }
+            }
+        }
     },
     "security": [
         []

@@ -5,23 +5,15 @@ namespace App\Http\Controllers\Contracts;
 use App\File;
 use Illuminate\Http\Request;
 
-/**
- * @OA\Info(
- *    title="Service Rest-Full",
- *    version="1.0.1",
- *    description="Documentación del mantenimiento de archivos."
- * ),
- * @OA\ExternalDocumentation(
- *    description="Mas informacion para configuración",
- *    url="https://styde.net/como-documentar-una-api-en-laravel-usando-swagger",
- * ),
- */
 interface IFileController
 {
     /**
      * @OA\Get(
      *   path="/api/files",
      *   tags={"Archivos"},
+     *   security={
+     *      {"passport": {}},
+     *   },
      *   summary="Listar todos los archivos",
      *   description="Muestra todos archivos existentes paginados en formato JSON",
      *   operationId="getAllFiles",
@@ -35,9 +27,9 @@ interface IFileController
      *       example="1"
      *     ),
      *   ),
-     *   security={ * {"SANCTUM": {}}, * },
      *   @OA\Response(response=200, description="Success"),
-     *   @OA\Response(response=401, description="No autorizado"),
+     *   @OA\Response(response=403, description="No autorizado"),
+     *   @OA\Response(response=401, description="No autenticado"),
      *   @OA\Response(response=500, description="Error interno del servidor")
      * )
      *
@@ -48,6 +40,9 @@ interface IFileController
      * @OA\Post(
      *   path="/api/files",
      *   tags={"Archivos"},
+     *   security={
+     *      {"passport": {}},
+     *   },
      *   summary="Crear archivo",
      *   description="Crear un nuevo archivo y lo agregar al storage local.",
      *   operationId="addFile",
@@ -66,7 +61,8 @@ interface IFileController
      *   ),
      *   @OA\Response(response=201, description="Se ha creado correctamente"),
      *   @OA\Response(response=400, description="No se cumple todos los requisitos"),
-     *   @OA\Response(response=401, description="No autorizado"),
+     *   @OA\Response(response=401, description="No autenticado"),
+     *   @OA\Response(response=403, description="No autorizado"),
      *   @OA\Response(response=500, description="Error interno del servidor")
      * )
      *
@@ -77,6 +73,9 @@ interface IFileController
      * @OA\Get(
      *   path="/api/files/{file}",
      *   tags={"Archivos"},
+     *   security={
+     *      {"passport": {}},
+     *   },
      *   summary="Obtener un archivo",
      *   description="Muestra información específica de un archivo.",
      *   operationId="getFile",
@@ -91,7 +90,8 @@ interface IFileController
      *     ),
      *   ),
      *   @OA\Response(response=200, description="Success"),
-     *   @OA\Response(response=401, description="No autorizado"),
+     *   @OA\Response(response=401, description="No autenticado"),
+     *   @OA\Response(response=403, description="No autorizado"),
      *   @OA\Response(response=404, description="No encontrado"),
      *   @OA\Response(response=500, description="Error interno del servidor")
      * )
@@ -103,6 +103,9 @@ interface IFileController
      * @OA\Post(
      *   path="/api/files/{file}",
      *   tags={"Archivos"},
+     *   security={
+     *      {"passport": {}},
+     *   },
      *   summary="Actualizar un archivo",
      *   description="Actulizar un archivo específico por Id",
      *   operationId="editFile",
@@ -130,7 +133,8 @@ interface IFileController
      *   ),
      *   @OA\Response(response=200, description="Success"),
      *   @OA\Response(response=400, description="No se cumple todos los requisitos"),
-     *   @OA\Response(response=401, description="No autorizado"),
+     *   @OA\Response(response=403, description="No autorizado"),
+     *   @OA\Response(response=401, description="No autenticado"),
      *   @OA\Response(response=500, description="Error interno del servidor")
      * )
      *
